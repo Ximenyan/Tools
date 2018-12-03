@@ -5,8 +5,19 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"time"
 )
+
+/*判断文件是否是目录*/
+func checkFileIsDir(filename string) (bool, error) {
+
+	f, err := os.Stat(filename)
+	if err != nil {
+		return false, err
+	}
+	return f.IsDir(), err
+}
 
 /* 判断文件是否存在  存在返回 true 不存在返回false*/
 func checkFileIsExist(filename string) bool {
@@ -77,4 +88,23 @@ func CopyFile(dstName, srcName string) (written int64, err error) {
 	}
 	defer dst.Close()
 	return io.Copy(dst, src)
+}
+
+/*删除目录*/
+func DelDir(path string) error {
+	if !checkFileIsExist(path) {
+		return nil
+	}
+	err := os.RemoveAll(path)
+	return err
+}
+
+/*遍历目录*/
+func RangeDir(path string, fn func(path string, fi os.FileInfo, err error) error) error {
+
+	if !checkFileIsExist(path) {
+		return nil
+	}
+	err := filepath.Walk(path, fn)
+	return err
 }
