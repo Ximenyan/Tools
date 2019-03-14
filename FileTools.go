@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"time"
@@ -31,12 +32,15 @@ func checkFileIsExist(filename string) bool {
 /*写文件*/
 func WriteFile(filePath, source string) {
 	var f *os.File
+	var err error
 	if checkFileIsExist(filePath) { //如果文件存在
-		f, _ = os.OpenFile(filePath, os.O_APPEND, 0666) //打开文件
+		f, err = os.OpenFile(filePath, os.O_APPEND, 0666) //打开文件
 	} else {
-		f, _ = os.Create(filePath) //创建文件
+		f, err = os.Create(filePath) //创建文件
 	}
-	io.WriteString(f, source) //写入文件(字符串
+	log.Println(err)
+	_, err = io.WriteString(f, source) //写入文件(字符串
+	log.Println(err)
 	f.Close()
 }
 
