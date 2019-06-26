@@ -58,6 +58,20 @@ func ReadBufio(path string) (string, error) {
 	return string(bytes), err
 }
 
+/*读文件 []byte*/
+func ReadBufioBytes(path string) ([]byte, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	bytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		return nil, err
+	}
+	return bytes, err
+}
+
 /*创建临时文件*/
 func MkTmpDir() string {
 	//fmt.Println(checkFileIsExist("./test_tmp"))
