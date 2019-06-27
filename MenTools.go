@@ -4,7 +4,9 @@ import (
 	"log"
 
 	"github.com/shirou/gopsutil/mem"
-) //最小剩余内存
+)
+
+//最小剩余内存
 var MinFree uint64
 var ChanGetFree chan uint64
 
